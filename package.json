@@ -1,0 +1,27 @@
+{
+  "name": "pantrycar",
+  "private": true,
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-autoprefixer": "^3.0.3",
+    "grunt-combine-media-queries": "^1.0.19",
+    "grunt-contrib-clean": "^0.6.0",
+    "grunt-contrib-cssmin": "^0.12.3",
+    "grunt-contrib-jshint": "^0.11.2",
+    "grunt-contrib-less": "^1.0.1",
+    "grunt-contrib-uglify": "^0.9.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-hashres": "^0.4.1",
+    "grunt-jsonlint": "^1.0.4",
+    "grunt-jsvalidate": "^0.2.2",
+    "grunt-phplint": "0.0.5",
+    "grunt-shell": "^1.1.2",
+    "grunt-ssh": "^0.12.3",
+    "grunt-svgmin": "^2.0.1",
+    "grunt-timer": "^0.6.0",
+    "gulp": "^3.8.8",
+    "jit-grunt": "^0.9.1",
+    "jshint-stylish": "^2.0.1",
+    "laravel-elixir": "*"
+  }
+}

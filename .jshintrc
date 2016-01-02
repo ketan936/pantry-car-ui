@@ -1,0 +1,36 @@
+{
+    "curly": true,
+    "freeze": true,
+    "bitwise": true,
+    "funcscope": true,
+    "immed": true,
+    "es3": true,
+    "indent": 4,
+    "noempty": false,
+    "nonbsp": true,
+    "sub": true,
+
+    "node": false,
+    "browser": true,
+    "esnext": false,
+    "camelcase": false,
+    "eqeqeq": false,
+    "forin": false,
+    "latedef": false,
+    "newcap": false,
+    "noarg": true,
+
+    "nonew": true,
+    "plusplus": false,
+    "undef": false,
+    "unused": false,
+    "strict": false,
+    "trailing": false,
+    "smarttabs": false,
+    "predef": [
+        "Modernizr",
+        "$",
+        "jQuery",
+        "HOST"
+    ]
+}

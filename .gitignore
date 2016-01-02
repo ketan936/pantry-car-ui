@@ -1,0 +1,13 @@
+/vendor
+/node_modules
+.env
+/bootstrap/compiled.php
+.env.*.php
+composer.phar
+.DS_Store
+Thumbs.db
+/public/css/build
+/public/js/build
+/public/img/svg
+.htaccess
+*.env
