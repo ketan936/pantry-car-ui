@@ -74,7 +74,7 @@ var Auth = {
       dataType: 'json',
       url: BASE_PATH + '/signup',
       method: 'POST',
-      data: Auth.settings.signupForm.serialize(),
+      data: $(Auth.settings.signupForm).serialize(),
       beforeSend: function() {
         $(".alert-danger").addClass('hidden').empty();
       },
