@@ -52,7 +52,7 @@ class CustomUserProvider implements UserProviderInterface {
         if(!is_null($this->user))
             return $this->user;
 
-        $url       = API_HOST.USER_DETAIL_ROUTE.$identifier."/";
+        $url       = API_HOST.USER_DETAIL_ROUTE.$identifier;
         $this->curl->setOption(CURLOPT_HEADER, true);
         $this->curl->setOption(CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
         $response = $this->curl->get($url); 
