@@ -1,6 +1,7 @@
 <?php 
 
 /* All api routed to be defined under this block */
+// define('API_HOST','http://localhost:8080');
 define('API_HOST','http://52.10.55.210:8080');
 
 define('LOGIN_API_ROUTE','/customers/login');
@@ -10,6 +11,13 @@ define('SIGNUP_API_ROUTE','/customers/');
 define('USER_DETAIL_ROUTE','/customers/');
 
 define('TOKEN_ROUTE','/customers/get_customer_from_token');
+
+define('ORDER','/orders/');
+
+define('CREATE_ORDER','/orders');
+
+define('CHECKOUT','/checkout');
+
 
 define("PNR_DETAIL_ROUTE","/railways/get_stations_from_pnr/");
 

@@ -11,3 +11,36 @@ Thumbs.db
 /public/img/svg
 .htaccess
 *.env
+
+
+### IntelliJ ###
+*.iml
+*.ipr
+*.iws
+.idea/
+
+node_modules/**/*
+
+node_modules/*
+
+
+### Eclipse ###
+*.pydevproject
+.project
+.metadata
+bin/**
+log/**
+logs/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+test-output/*
+test-output/**
+test-output/**/*
