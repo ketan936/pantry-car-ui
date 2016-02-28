@@ -16,8 +16,8 @@
          <div class="col-md-4 col-md-push-8 mb20" id="cart-summary-container">
           <div>
           	 <div class="restaurant-header-image-small">
-          	 	  	 <h3 class="restaurant-name-small">Al Barista</h3>
- 	      	         <div class="restaurant-address-small">New Delhi Railway Station</div>
+          	 	  	 <h3 class="restaurant-name-small">{{ $parameters["restaurant_name"] }} </h3>
+ 	      	         <div class="restaurant-address-small">{{ $parameters["station_name"] }} </div>
           	 </div>
           	 <div id="cart-summary-panel">
           	 	<h5 class="textcenter">Order Summary</h5>
@@ -55,7 +55,7 @@
 	 	      </ul>
  	
          <h4 >Travel Details</h4>
-         		 <form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/register') }}" style="float:left;width:100%;">
+         		 <form class="form-horizontal" role="form" method="POST" action="{{ url('/processPayment') }}" style="float:left;width:100%;">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 
 						<div class="form-group">
@@ -110,10 +110,13 @@
                          <label class="col-md-12 control-label">Before proceeding ,please check all details are entered correctly .</label>
                        </div>
 						<div class="form-group">
-							<div class="col-md-12">
-								<button type="submit" class="btn pc-btn" id="proceed-to-pay" >
-									Proceed to pay
-								</button>
+							<div class="col-md-4">
+								<input type="submit" name="payment_mode" value="Pay Online" class="btn pc-btn" id="proceed-to-pay" >
+								</input>
+							</div>
+							<div class="col-md-4">
+								<input type="submit" name="payment_mode" value="COD" class="btn pc-btn" id="proceed-to-pay" >
+								</input>
 							</div>
 						</div>
 					</form>

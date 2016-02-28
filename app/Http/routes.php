@@ -91,7 +91,9 @@ Route::get('/getPnrDetail/{pnr_number}',"StationController@getPnrDetail");
 
 Route::get('/restaurants/{station_code}/{slug}','RestaurantController@show');
 
-Route::get("/processPayment","PaymentController@handle");
+Route::post("/processPayment","PaymentController@handle");
+
+Route::get("/orderPlaced",array('as'   => 'order-placed','uses' =>"PaymentController@placed"));
 
 Route::group(['middleware' => 'cart.auth'], function() { Route::post("/checkout",array('as' => 'checkout' ,'uses' => 'CartCheckout@handle')); });
 

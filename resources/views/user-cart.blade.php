@@ -9,17 +9,16 @@
             <div class="col-md-offset-1 col-md-10 mb20">
 							<h3 class="head-common-color pc-heading">Inside Your cart</h3>
 							@if(\Cart::count(false) >0 )
-						   <?php $parameters = \Session::get("checkoutFormParamters") ;?> 
 							<div class="col-md-8 ml-negative-15">
 								  <div class="mb20 overflow-hidden ">
 									 <div class="floatleft cart-restaurant-image" >
 										 <img src="{{ asset('img/blurback.jpg')}}" width="174" height="94"  />
 								     </div>	
 								     <div class="pl10 cart-restaurant-info-wrap">
-								     	<div class="restaurant-name-small-1">Al Barista</div>
+								     	<div class="restaurant-name-small-1">{{  "hello" }}</div>
 								     	<div class="restaurant-attributes-small">
 								     		<span><i class="fa fa-check-circle pr10"></i>Cash On Delivery : Availiable</span>
-								     		<span><i class="fa fa-check-circle pr10"></i>Delivery Charges : Free</span>
+								     		<span><i class="fa fa-check-circle pr10"></i>Delivery Charges : Rs {{  $parameters["delivery_charges"] or "0" }}</span>
 								     	</div>
 								        <div class="cart-item-count mt10 mb10">Total items : {{ $itemCount }} </div>
 								     </div>

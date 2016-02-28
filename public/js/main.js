@@ -57,10 +57,10 @@ $(document).ready(function() {
     form.submit();
   });
 
-  $('body').on('click', '#proceed-to-pay', function(event) {
+/*  $('body').on('click', '#proceed-to-pay', function(event) {
     event.preventDefault();
     window.location.href = BASE_PATH + "/processPayment";
-  });
+  });*/
 
 
 

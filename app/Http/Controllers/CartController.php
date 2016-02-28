@@ -30,7 +30,7 @@ class CartController extends Controller {
 	{
         $cartContent       = $this->getCartContent();
         $this->setCheckoutParam();
-        return view('user-cart')->with('cartContent' ,$cartContent)->with('itemCount',Cart::count(false));
+        return view('user-cart')->with('cartContent' ,$cartContent)->with('itemCount',Cart::count(false))->with("parameters",Session::get("checkoutFormParamters"));
 	}
 
 /*

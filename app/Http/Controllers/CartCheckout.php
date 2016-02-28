@@ -1,5 +1,6 @@
 <?php 
 namespace App\Http\Controllers;
+use Session;
 use Input;
 use App;
 
@@ -21,14 +22,14 @@ class  CartCheckout extends Controller {
 	 * @return Response
 	 */
 	public function handle()
-	{	
+	{
 	   $cartSummary     = CartController::getCartSummaryStaticHTML();
 	   $breadcrumbParam = null;
 
 	   $trainNum      = Input::get("train_num");
        $trainName     = Input::get("train_name");
 	   $srcStation    = Input::get("source_station");
-       $destStation   = Input::get("destination_station"); 
+       $destStation   = Input::get("destination_station");
        $journeyDate   = Input::get("journey_date");
        $stationCode   = Input::get("station_code");
        $searchType    = Input::get("search_type");
@@ -44,6 +45,7 @@ class  CartCheckout extends Controller {
        	     return view('cart-checkout')
                           ->with('cartSummary',$cartSummary)
                           ->with('breadcrumbParam',$breadcrumbParam)
+				 		  ->with("parameters",Session::get("checkoutFormParamters"))
                           ->with('bookingDetailHeader',$bookingDetailHeader);
        }
       else{

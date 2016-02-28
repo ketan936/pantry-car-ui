@@ -23,15 +23,28 @@ class RestaurantController extends Controller {
 		$this->curl = new Curl;
 	}
 
+	private function getRestaurantMenu($restaurantId)
+	{
+        $url = API_HOST . MENU . $restaurantId;
+        $this->curl->setOption(CURLOPT_HEADER, true);
+        $this->curl->setOption(CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        $response = $this->curl->get($url);
+        $response = json_decode($response, true);
+        return $response["categories"];
+
+	}
+
 	public function show($stationCode)
 	{
        $trainNum        = Input::get("train_num");
        $trainName       = Input::get("train_name");
 	   $srcStation      = Input::get("source_station");
-       $destStation     = Input::get("destination_station"); 
+       $destStation     = Input::get("destination_station");
        $journeyDate     = Input::get("journey_date");
        $searchType      = Input::get("search_type");
        $pnrNumber       = Input::get("pnr_number");
+        $stationName    = Input::get("station_name");
+        $deliveryTime   = Input::get("delivery_time");
        $breadcrumbParam = null;
 
        if(!empty($stationCode)){
@@ -50,7 +63,9 @@ class RestaurantController extends Controller {
                                    		 "journey_date"        => $journeyDate,
                                    		 "train_name"          => $trainName,
                                    		 "station_code"        => $stationCode,
-                                   		 "search_type"         => $searchType
+                                   		 "search_type"         => $searchType,
+                                         "station_name"        => $stationName,
+                                         "delivery_time"        => $deliveryTime
 		        			              );
                      if($searchType == "pnr_search")
 		        			$buildParam['pnr_number'] = $pnrNumber;
@@ -63,7 +78,7 @@ class RestaurantController extends Controller {
                 $url       = API_HOST.GET_RESTAURANT_BY_STATION_API_ROUTE.$stationCode;
 		        $this->curl->setOption(CURLOPT_HEADER, true);
 		        $this->curl->setOption(CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-		        $response = $this->curl->get($url);  
+		        $response = $this->curl->get($url);
 		        $response = json_decode($response,true);
 		        if(isset($response) && isset($response['status']) && $response['status'] === true){
 		        	if(isset($response["restaurants"])){
@@ -89,38 +104,38 @@ class RestaurantController extends Controller {
 	}
 
 	public function getDetail($restaurantId){
-       
-        /*if(!empty($restaurantId) ){
-       
-       	  $url       = API_HOST.o;
-          $this->curl->setOption(CURLOPT_HEADER, true);
-          $this->curl->setOption(CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-          $response = $this->curl->get($url,array("url" => $restaurantId));  
-          $response = json_decode($response,true); 
-           if(isset($response) && isset($response['status']) && $response['status'] === true){
-           	 $restaurantMenu = self::getRestaurantMenu($resId);
-		     return view("manage-restaurant-panel")
-		             ->with("showDetail",true)
-		             ->with("name",$response['name'])
-           	         ->with("resInternalId",$response['internalId'])
-              	     ->with("address",$response['location']['address'])
-              	     ->with("city",$response['location']['city'])
-              	     ->with("state", $response['location']['state'])
-              	     ->with("minimumOrder",$response['minimumOrder'])
-              	     ->with("openTime",$response['openTime'])
-              	     ->with("closeTime",$response['closeTime'])
-              	     ->with("contactNo",$response['contactNo'])
-              	     ->with("deliveryCharges",$response['deliveryCharges'])
-              	     ->with("restaurantMenu",$restaurantMenu);
-              	}
-            else{
-                 return view("manage-restaurant-panel")
-                         ->with("noRestFound",true);
-            }  	     
-		}
-		else{
-		    \App::abort(404);
-		}*/
+
+        if (!empty($restaurantId)) {
+            $restView = null;
+            $url = API_HOST . RESTAURANT;
+            $this->curl->setOption(CURLOPT_HEADER, true);
+            $this->curl->setOption(CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+            $response = $this->curl->get($url, array("url" => $restaurantId));
+            $response = json_decode($response, true);
+            if (isset($response) && isset($response['status']) && $response['status'] === true) {
+                $restaurantMenu = $this->getRestaurantMenu($response['id']);
+                $restView = view("restaurant-page")
+                    ->with("showDetail", true)
+                    ->with("name", $response['name'])
+                    ->with("resInternalId", $response['id'])
+                    ->with("stationName",Input::get("station_name"))
+
+//                    ->with("address", $response['location']['address'])
+//                    ->with("city", $response['location']['city'])
+//                    ->with("state", $response['location']['state'])
+                    ->with("minimumOrder", $response['minOrderValue'])
+                    ->with("openTime", $response['openTime'])
+                    ->with("closeTime", $response['closeTime'])
+                    ->with("contactNo", $response['contactNumber'])
+                    ->with("deliveryCharges", $response['deliveryCharges'])
+                    ->with("restaurantMenu", $restaurantMenu);
+            } else {
+                return view("restaurant-page")
+                    ->with("noRestFound", true);
+            }
+        } else {
+            \App::abort(404);
+        }
        $this->cleanUpCartIfNeeded($restaurantId);
        $cartController  = new CartController;
        $cartContent     = $cartController->getCartContent();
@@ -128,10 +143,12 @@ class RestaurantController extends Controller {
        $trainNum    = Input::get("train_num");
        $trainName   = Input::get("train_name");
 	   $srcStation  = Input::get("source_station");
-       $destStation = Input::get("destination_station"); 
+       $destStation = Input::get("destination_station");
        $journeyDate = Input::get("journey_date");
        $stationCode = Input::get("station_code");
        $searchType  = Input::get("search_type");
+        $stationName    = Input::get("station_name");
+        $deliveryTime   = Input::get("delivery_time");
        $restaurantHeader = null;
 
        $checkoutFormParamters = array("train_num" => $trainNum,
@@ -141,8 +158,11 @@ class RestaurantController extends Controller {
        	                              "journey_date" => $journeyDate,
        	                              "station_code" => $stationCode,
        	                              "search_type" => $searchType,
-       	                              "restaurant_id" => "al-barista-16",
-       	                              "restaurant_name" => "Al Barista"
+       	                              "restaurant_id" => $response['id'],
+       	                              "restaurant_name" => $response['name'],
+		                              "delivery_charges" => $response['deliveryCharges'],
+                                      "station_name" => $stationName,
+                                      "delivery_time" => $deliveryTime
        	                             );
         Session::put('checkoutFormParamters',$checkoutFormParamters);
 
@@ -154,8 +174,8 @@ class RestaurantController extends Controller {
 				                                "STATION_SELECTED"  => "<i class='fa fa-map-marker pr10'></i>".$stationCode
 				                          );
 	       	   		$breadcrumbParam = Input::except("login","_token",'checkout','completeDetails');
-	      } 	   		
-	   return view('restaurant-page')
+	      }
+	   return $restView
 	           ->with('cartContent',$cartContent)
 	           ->with("breadcrumbParam",$breadcrumbParam)
 	           ->with("restaurant_header",$restaurantHeader);
@@ -166,10 +186,10 @@ class RestaurantController extends Controller {
 		       	   if(Session::get("currentRestaurantInCart") !== $restaurantId){
 		               Cart::destroy();
 		               Session::forget("checkoutFormParamters");
-		       	   	 Session::set("currentRestaurantInCart",$restaurantId);  
+		       	   	 Session::set("currentRestaurantInCart",$restaurantId);
 		       	   }
            }else{
-       	          Session::set("currentRestaurantInCart",$restaurantId);  
+       	          Session::set("currentRestaurantInCart",$restaurantId);
            }
 	}
 

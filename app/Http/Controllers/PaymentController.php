@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use App\Libraries\Curl;
 use App\Config\Constants;
+use Illuminate\Support\Facades\Input;
 use Log;
 use Auth;
 use Session;
@@ -43,6 +44,9 @@ class PaymentController extends Controller {
         $checkoutResponse =  $this->curl->put($url,json_encode($request));
         Log::info($checkoutResponse);
         $checkoutResponse = json_decode($checkoutResponse,true);
+        if(Input::get("payment_mode") == "COD"){
+           return redirect("orderPlaced")->with("checkoutResponse",$checkoutResponse);
+        }
         return redirect($checkoutResponse["payment_url"]);
 //        $cartSummary = $this->cartController->getCartSummaryStaticHTML();
 //        return view('payment')
@@ -55,15 +59,17 @@ class PaymentController extends Controller {
         $user = Auth::user();
         $request = array(
             "customer_id" => $user->getAuthIdentifier(),
-            "restaurant_id" => /*$checkoutParameter["restaurant_id"]*/"RST1",
+            "restaurant_id" => $checkoutParameter["restaurant_id"],
             "train_no" => $checkoutParameter["train_num"],
             "station_code" => $checkoutParameter["station_code"],
-            "order_date" => Carbon::now()->toDateTimeString(),
-            "delivery_date" => Carbon::now()->toDateTimeString(),
-            "amount_billed" =>/* Cart::total()*/ 12.2,
-            "mode_of_payment" => "PREPAID",
+            "order_date" => Carbon::now()->timezone("Asia/Kolkata")->toDateTimeString(),
+            "delivery_date" => $checkoutParameter["delivery_time"],
+            "amount_billed" =>Cart::total(),
+            "mode_of_payment" => Input::get("payment_mode") == "COD" ? "COD" :"PREPAID",
             "order_items" => $this->createOrderItem($cart)
         );
+        $checkoutParameter["mode_of_payment"] = $request ["mode_of_payment"];
+        Session::put("checkoutFormParamters", $checkoutParameter);
         return $request;
     }
 
@@ -80,6 +86,11 @@ class PaymentController extends Controller {
                 ));
         }
         return $orderItems;
+    }
+
+    public function placed()
+    {
+        Session::get("checkoutResponse");
     }
 
 

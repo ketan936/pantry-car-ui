@@ -12,11 +12,20 @@ define('USER_DETAIL_ROUTE','/customers/');
 
 define('TOKEN_ROUTE','/customers/get_customer_from_token');
 
+//orders
+
 define('ORDER','/orders/');
 
 define('CREATE_ORDER','/orders');
 
 define('CHECKOUT','/checkout');
+
+//restaurants
+
+define('RESTAURANT','/restaurants');
+
+define('MENU' , "/menu/");
+
 
 
 define("PNR_DETAIL_ROUTE","/railways/get_stations_from_pnr/");

@@ -6,6 +6,7 @@ use Cocur\Slugify\Slugify;
 use Breadcrumbs;
 use Input;
 use Helper;
+use Carbon\Carbon;
 
 class StationController extends Controller {
 
@@ -25,7 +26,7 @@ class StationController extends Controller {
 	{
         $search_type = Input::get("search_type");
         $breadcrumbParam = null;
-        
+
 		if(isset($search_type)) {
             if($search_type == 'pnr_search'){
 			        $pnrNumber = Input::get("pnr_number");
@@ -80,7 +81,9 @@ class StationController extends Controller {
                                    			"destination_station" => $destStation,
                                    			"journey_date"        => $journeyDate,
                                    			"train_name"          => $response['trainName'],
-                                   			"search_type"		  => $search_type
+                                   			"search_type"		  => $search_type,
+											"station_name"		  => $station["stationName"],
+											"delivery_time"		  => $this->calculateTime($station,$journeyDate)
 	 	        			                  );
 		        		if($search_type == "pnr_search")
 		        			$buildParam['pnr_number'] = $pnrNumber;
@@ -128,6 +131,18 @@ class StationController extends Controller {
 				    }
 
 				    return $response;
+	}
+
+	public function calculateTime($station,$journeyDate){
+		 return Carbon::createFromFormat('d-m-Y H:i:s',$journeyDate
+			 ." "
+			 .($station["arrivalTime"] == "Start" ? $station["departureTime"] : $station["arrivalTime"])
+			 .":00"
+		 )
+			 ->setTimezone("Asia/Kolkata")
+			 ->addDays($station["day"] -1)->toDateTimeString();
+
+
 	}
 
 }
