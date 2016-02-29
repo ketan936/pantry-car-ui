@@ -1,53 +1,53 @@
-<?php 
+<?php
 
 /* All api routed to be defined under this block */
-// define('API_HOST','http://localhost:8080');
-define('API_HOST','http://52.10.55.210:8080');
+//define('API_HOST', 'http://localhost:8080');
+ define('API_HOST','http://52.10.55.210:8080');
 
-define('LOGIN_API_ROUTE','/customers/login');
+define('LOGIN_API_ROUTE', '/customers/login');
 
-define('SIGNUP_API_ROUTE','/customers/');
+define('SIGNUP_API_ROUTE', '/customers/');
 
-define('USER_DETAIL_ROUTE','/customers/');
+define('USER_DETAIL_ROUTE', '/customers/');
 
-define('TOKEN_ROUTE','/customers/get_customer_from_token');
+define('TOKEN_ROUTE', '/customers/get_customer_from_token');
 
 //orders
 
-define('ORDER','/orders/');
+define('ORDER', '/orders/');
 
-define('CREATE_ORDER','/orders');
+define('CREATE_ORDER', '/orders');
 
-define('CHECKOUT','/checkout');
+define('CONFIRM', 'confirm');
+define('CHECKOUT', '/checkout');
 
 //restaurants
 
-define('RESTAURANT','/restaurants');
+define('RESTAURANT', '/restaurants');
 
-define('MENU' , "/menu/");
+define('MENU', "/menu/");
 
 
+define("PNR_DETAIL_ROUTE", "/railways/get_stations_from_pnr/");
 
-define("PNR_DETAIL_ROUTE","/railways/get_stations_from_pnr/");
+define("TRAIN_BETWEEN_LOCATION_ROUTE", "/railways/get_trains_between_locations");
 
-define("TRAIN_BETWEEN_LOCATION_ROUTE","/railways/get_trains_between_locations");
+define("STATION_BETWEEN_LOCATION_ROUTE", "/railways/get_stations_between_locations");
 
-define("STATION_BETWEEN_LOCATION_ROUTE","/railways/get_stations_between_locations");
+define("VERIFIY_ACCOUNT_ROUTE", "/customers/set_customer_verified");
 
-define("VERIFIY_ACCOUNT_ROUTE","/customers/set_customer_verified");
+define("RESTAURANT_MENU_API_ROUTE", "/restaurants/");
 
-define("RESTAURANT_MENU_API_ROUTE","/restaurants/");
-
-define("GET_RESTAURANT_BY_STATION_API_ROUTE","/restaurants/get_restaurants_by_station/");
+define("GET_RESTAURANT_BY_STATION_API_ROUTE", "/restaurants/get_restaurants_by_station/");
 
 /* String constants to be defined under this block */
-define("ACCESS_DENIED","access_denied");
+define("ACCESS_DENIED", "access_denied");
 
-define("UPDATE_PASSWORD_RESET_TOKEN_ROUTE",'/customers/');
+define("UPDATE_PASSWORD_RESET_TOKEN_ROUTE", '/customers/');
 
-define("CHANGE_PASSWORD_ROUTE","/customers/");
+define("CHANGE_PASSWORD_ROUTE", "/customers/");
 
-define("GET_RESTAURANT_DETAILS_ROUTE","/restaurants/");
+define("GET_RESTAURANT_DETAILS_ROUTE", "/restaurants/");
 
 define('HTTP_URL_REPLACE', 1);        // Replace every part of the first URL when there's one of the second URL
 

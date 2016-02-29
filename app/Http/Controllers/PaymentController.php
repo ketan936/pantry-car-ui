@@ -96,15 +96,18 @@ class PaymentController extends Controller
 
         return view('payment')
             ->with('cartSummary', $cartSummary)
-            ->with("orderDetail" , $orderDetail);
+            ->with("orderDetail", $orderDetail);
     }
 
     private function getOrderDetail($orderId)
     {
+        if ($orderId == null) {
+            return $this->getOrderId(Input::get("payment_request_id"));
+        }
         $url = API_HOST . ORDER . $orderId;
         $this->curl->setOption(CURLOPT_HEADER, true);
         $this->curl->setOption(CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
-        $response =  json_decode($this->curl->get($url),true);
+        $response = json_decode($this->curl->get($url), true);
         return $response;
     }
 
@@ -124,7 +127,7 @@ class PaymentController extends Controller
             $cartString .= "<li data-index='" . $iterator . "'>";
             $cartString .= '<div class="cart-item-name" >' . $row["name"] . '</div>';
             $cartString .= '<div class="cart-item-qty pt5" >x ' . $row["quantity"] . '</div>';
-            $cartString .= '<div class="cart-item-total textright pr10">Rs ' . $row["quantity"] *  $row["per_item_cost"] . '</div>';
+            $cartString .= '<div class="cart-item-total textright pr10">Rs ' . $row["quantity"] * $row["per_item_cost"] . '</div>';
             $cartString .= '</li>';
             $iterator++;
         }
@@ -132,5 +135,14 @@ class PaymentController extends Controller
         $cartString .= "</ul>";
         $cartString .= '<div class="payment-total mt20 overflow-hidden"><span class="floatleft">Amount Payable</span><span class="floatright" >Rs ' . $orderDetail["amount_billed"] . '</span></div>';
         return $cartString;
+    }
+
+    private function getOrderId($paymentRequestId)
+    {
+        $url = API_HOST . ORDER . CONFIRM;
+        $this->curl->setOption(CURLOPT_HEADER, true);
+        $this->curl->setOption(CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
+        $response =  json_decode($this->curl->put($url, json_encode(array("payment_request_id" => $paymentRequestId))), true);
+        return $response;
     }
 }
