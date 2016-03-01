@@ -57,7 +57,7 @@ class CustomUserProvider implements UserProviderInterface {
         $this->curl->setOption(CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
         $response = $this->curl->get($url); 
         $response = json_decode($response,true);
-        if($response == null || isset($response['status']) && $response['status'] === false){
+        if($response == null || isset($response['responseStatus']) && $response['responseStatus'] === false){
             return null;
         }  
         $userArray = array("id" => $response['emailId'],"name" => $response['name'],"contactNo" =>  $response['contactNo']);
@@ -83,7 +83,7 @@ class CustomUserProvider implements UserProviderInterface {
         $this->curl->setOption(CURLOPT_HTTPHEADER, array('Content-Type: application/json',"Accept: application/json"));
         $response = $this->curl->post($url, json_encode($postParam));
         $response = json_decode($response,true);
-        if(isset($response['status']) && $response['status'] === true){
+        if(isset($response['responseStatus']) && $response['responseStatus'] === true){
              $userArray = array("id" => $response['emailId'],"name" => $response['name']);
              return new GenericUser($userArray);
         } 
@@ -108,7 +108,7 @@ class CustomUserProvider implements UserProviderInterface {
         $this->curl->setOption(CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
         $response = $this->curl->post($url, json_encode($postParam));
         $response = json_decode($response,true);
-        if($response == null || isset($response['status']) && $response['status'] === true)
+        if($response == null || isset($response['responseStatus']) && $response['responseStatus'] === true)
             return true;
 
         return false;
@@ -124,7 +124,7 @@ class CustomUserProvider implements UserProviderInterface {
         $this->curl->setOption(CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
         $response = $this->curl->get($url,array("token" => $token));  
         $response = json_decode($response,true); 
-        if($response == null || isset($response['status']) && $response['status'] === false)
+        if($response == null || isset($response['responseStatus']) && $response['responseStatus'] === false)
             return null;
         $userArray = array("id" => $response['emailId'],"name" => $response['name']);
         return new GenericUser($userArray);
@@ -154,7 +154,7 @@ class CustomUserProvider implements UserProviderInterface {
         $this->curl->setOption(CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
         $response = $this->curl->put($url,json_encode(array("verificationToken" => $code))); 
         $response = json_decode($response,true);
-        if($response != null && isset($response['status']) && $response['status'] === true && isset($response['verified']) && $response['verified'] === true){
+        if($response != null && isset($response['responseStatus']) && $response['responseStatus'] === true && isset($response['verified']) && $response['verified'] === true){
             if(!empty($response['emailId']) && !empty($response['name'])){
                     $userData = array("emailId" =>$response['emailId'] ,"name" => $response['name']);
                     $userArray = new GenericUser(array("id" => $response['emailId'],"name" => $response['name']));
@@ -180,7 +180,7 @@ class CustomUserProvider implements UserProviderInterface {
         $this->curl->setOption(CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
         $response = $this->curl->put($url,json_encode(array("passResetToken" => $resetToken))); 
         $response = json_decode($response,true);
-        if($response != null && isset($response['status']) && $response['status'] === true ){
+        if($response != null && isset($response['responseStatus']) && $response['responseStatus'] === true ){
                     return true;
          }  
         return false;
@@ -200,7 +200,7 @@ class CustomUserProvider implements UserProviderInterface {
         $this->curl->setOption(CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
         $response = $this->curl->put($url,json_encode(array("loginPass" => $password))); 
         $response = json_decode($response,true);
-        if($response != null && isset($response['status']) && $response['status'] === true){
+        if($response != null && isset($response['responseStatus']) && $response['responseStatus'] === true){
               return true;
          }  
         return false;

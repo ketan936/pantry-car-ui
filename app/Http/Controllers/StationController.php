@@ -31,7 +31,7 @@ class StationController extends Controller {
             if($search_type == 'pnr_search'){
 			        $pnrNumber = Input::get("pnr_number");
 				    $response =  self::getPnrDetail($pnrNumber);
-				    if(isset($response) && isset($response['status']) && $response['status'] === true) {
+				    if(isset($response) && isset($response['responseStatus']) && $response['responseStatus'] === true) {
 				    	$trainNum    = $response['trainNum'];
 				 		$srcStation  = $breadcrumbParam['source_station'] = $response['srcStationCode'];
 	        			$destStation = $breadcrumbParam['destination_station'] = $response['destStationCode'];
@@ -65,7 +65,7 @@ class StationController extends Controller {
 
 		   
 
-		  if(isset($response) && isset($response['status']) && $response['status'] === true) {
+		  if(isset($response) && isset($response['responseStatus']) && $response['responseStatus'] === true) {
 		      	 
 		        	  $stationHeader       = array( "journey_date"        => "<i class='fa fa-calendar pr10'></i>".date('d M Y' ,strtotime($response['date'])),
 		        	 	                             "route"              => "<i class='fa fa-map-marker pr10'></i>".$response['srcStationName'] ." TO " .$response['destStationName'],

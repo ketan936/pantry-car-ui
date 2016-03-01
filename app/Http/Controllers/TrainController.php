@@ -45,7 +45,7 @@ class TrainController extends Controller {
             $this->curl->setOption(CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
             $response = $this->curl->get($url,$param); 
             $response = (array)json_decode($response);
-            if(isset($response) && isset($response['status']) && $response['status'] === true && count($response['trains']) > 0) {
+            if(isset($response) && isset($response['responseStatus']) && $response['responseStatus'] === true && count($response['trains']) > 0) {
             	$trainListHeader        = array(  "DATE" => $response['date'],
                                                 "ROUTE" => "<i class='fa fa-arrow-right pr10'></i>".$response['srcStationName'] ." [".$response['srcStationCode']."] TO " .$response['destStationName']." [".$response['destStationCode']."]",
                                                 "SRC_STATION" => "<i class='fa fa-arrow-right pr10'></i>".$response['srcStationCode'],

@@ -80,7 +80,7 @@ class RestaurantController extends Controller {
 		        $this->curl->setOption(CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
 		        $response = $this->curl->get($url);
 		        $response = json_decode($response,true);
-		        if(isset($response) && isset($response['status']) && $response['status'] === true){
+		        if(isset($response) && isset($response['responseStatus']) && $response['responseStatus'] === true){
 		        	if(isset($response["restaurants"])){
 		        		foreach ($response["restaurants"] as $value) {
 		        		   $restaurantsList[] = array("restaurantName" => $value["name"],
@@ -112,7 +112,7 @@ class RestaurantController extends Controller {
             $this->curl->setOption(CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
             $response = $this->curl->get($url, array("url" => $restaurantId));
             $response = json_decode($response, true);
-            if (isset($response) && isset($response['status']) && $response['status'] === true) {
+            if (isset($response) && isset($response['responseStatus']) && $response['responseStatus'] === true) {
                 $restaurantMenu = $this->getRestaurantMenu($response['id']);
                 $restView = view("restaurant-page")
                     ->with("showDetail", true)
